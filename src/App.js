@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import Progress from "./components/Progress";
+import Loading from "./components/Loading";
 const initialState = {
   questions: [],
   status: "isLoading",
@@ -34,6 +35,9 @@ function reducer(snState, action) {
    
       return{...snState,indexQuestions:nextQuestion,answer:null,rightAnswer:""}
     }
+    case "reset":{
+      return {questions:snState.questions,status:snState.status,indexQuestions:0,points:0,rightAnswer:"",answer:null}
+    }
     default:{
       throw new Error ("Action not known")
     }
@@ -54,13 +58,15 @@ function App() {
     }
   }, []);
   const showNextBtn= answer!==null && indexQuestions<questions.length-1
+  const showResetBtn = answer!==null && indexQuestions===questions.length-1
 
   return (
     <div className="App">
       <div className="container">
-      <Progress questions= {questions} indexQuestions={indexQuestions} points={points}/>
-        {status !== "recieved" ? <p>loading</p> :
+     
+        {status !== "recieved" ? <Loading/> :
          <>
+          <Progress questions= {questions} indexQuestions={indexQuestions} points={points}/>
          {questions.map((itemQuestion,index)=>index===indexQuestions&&
          <div key={index}>
          <p className="">{itemQuestion.question}</p>
@@ -72,6 +78,7 @@ function App() {
          </div>
          )}
          {showNextBtn &&  <button onClick={()=>{dispatch({type:'nextQuestion'})}} className="btn btn-primary">Next</button>}
+         {showResetBtn && <button onClick={()=>dispatch({type:"reset"})} className="btn btn-danger">Reset</button>}
         </>}
        
       </div>
