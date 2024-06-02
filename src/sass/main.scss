@@ -56,3 +56,21 @@
   background-color: rgb(34, 140, 226);
   transition: .25s;
 }
+.score{
+  font-size: 24px;
+  font-weight: bold;
+}
+.finishScreen{
+  background-color: rgb(26, 26, 94);
+  color: #fff;
+  width: 80%;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 11px;
+}
+.btn.btn-danger{
+width: 180px;
+margin: auto;
+font-size: 24px;
+display: block;
+}
