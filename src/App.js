@@ -86,7 +86,7 @@ function App() {
     },
     dispatch,
   ] = useReducer(reducer, initialState);
-/*
+
   useEffect(() => {
     try {
       fetch(`https://api.jsonbin.io/v3/b/665c5eeae41b4d34e4fd58de`, {
@@ -97,21 +97,27 @@ function App() {
         },
       })
         .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((data) => console.log(data.record.questions));
     } catch (error) {
       console.log(error);
     }
   }, []);
-*/
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`http://localhost:8000/questions`);
+        const res = await fetch(`https://api.jsonbin.io/v3/b/665c5eeae41b4d34e4fd58de`,{
+          method: "GET",
+          headers: {
+            "X-Master-Key":
+              "$2a$10$bkQ6PP7ismynZk0.2aEYcO2nFKtVrWXGMzwhhUoTikXBuRGm0qPTu",
+          },
+        });
         if (!res.ok) {
           throw new Error("there is an error ");
         } else {
           const data = await res.json();
-          dispatch({ type: "dataRecived", payload: data });
+          dispatch({ type: "dataRecived", payload: data.record.questions });
         }
       } catch (error) {
         dispatch({ type: "fail", payload: error.message });
