@@ -86,7 +86,7 @@ function App() {
     },
     dispatch,
   ] = useReducer(reducer, initialState);
-
+/*
   useEffect(() => {
     try {
       fetch(`https://api.jsonbin.io/v3/b/665c5eeae41b4d34e4fd58de`, {
@@ -97,12 +97,13 @@ function App() {
         },
       })
         .then((res) => res.json())
-        .then((data) => console.log(data.record.questions));
+        .then((data) => data.record.questions);
     } catch (error) {
       console.log(error);
     }
   }, []);
-
+  */
+//https://api.jsonbin.io/v3/b/665c5eeae41b4d34e4fd58de
   useEffect(() => {
     async function fetchData() {
       try {
@@ -110,13 +111,14 @@ function App() {
           method: "GET",
           headers: {
             "X-Master-Key":
-              "$2a$10$bkQ6PP7ismynZk0.2aEYcO2nFKtVrWXGMzwhhUoTikXBuRGm0qPTu",
+              "$2a$10$eb5fMMQQKy3XfIbmNVHyme7iRC0x6iF6vv7XxuLVMJKiEQaMJ4qBi",
           },
         });
         if (!res.ok) {
           throw new Error("there is an error ");
         } else {
           const data = await res.json();
+          console.log(data)
           dispatch({ type: "dataRecived", payload: data.record.questions });
         }
       } catch (error) {
