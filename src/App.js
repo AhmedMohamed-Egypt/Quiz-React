@@ -3,6 +3,7 @@ import Progress from "./components/Progress";
 import Loading from "./components/Loading";
 import NextButton from "./components/NextButton";
 import Score from "./components/Score";
+import WelcomeScreen from "./components/WelcomeScreen";
 const initialState = {
   questions: [],
   isLoading: "",
@@ -12,10 +13,14 @@ const initialState = {
   points: 0,
   rightAnswer: "",
   highScore :0,
+  startQuiz:true,
 
 };
 function reducer(snState, action) {
   switch (action.type) {
+    case "start":{
+      return{...snState,startQuiz:false}
+    }
     case "loading": {
       return { ...snState, isLoading: action.payload };
     }
@@ -64,7 +69,8 @@ function reducer(snState, action) {
         points: 0,
         rightAnswer: "",
         answer: null,
-        highScore:snState.highScore
+        highScore:snState.highScore,
+      
       };
     }
     default: {
@@ -83,6 +89,7 @@ function App() {
       rightAnswer,
       points,
       highScore,
+      startQuiz,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -129,17 +136,19 @@ function App() {
   }, []);
   const showNextBtn = answer !== null && indexQuestions < questions.length - 1;
   
-  const showUI = status === "recieved";
+  const showUI = status === "recieved" ;
   const showError = status === "Failure";
   const Loader = status === "isLoading";
 
   return (
     <div className="App">
       <div className="container">
-        {Loader && <Loading/>}
+      
+        {(startQuiz === true)  ? <WelcomeScreen dispatch={dispatch}/>:<>
+          {Loader && <Loading/>}
         {showError&&<p className="badge text-bg-danger">{status}</p>}
         {showUI && (
-          <>
+          <div className="container-quiz">
             <Progress
               questions={questions}
               indexQuestions={indexQuestions}
@@ -181,8 +190,10 @@ function App() {
             {showNextBtn && <NextButton dispatch={dispatch} />}
          
            
-          </>
+          </div>
         )}
+        </>}
+       
        
         {status==='Finish'&&<div className="finishScreen">
               <Score points={points} highScore={highScore}/>
@@ -194,7 +205,7 @@ function App() {
               </button>
             </div>}
       
-       
+    
       </div>
     </div>
   );

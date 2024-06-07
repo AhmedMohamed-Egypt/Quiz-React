@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server  --watch data/questions.json --delay 30000  --port 8000"
+    "server": "json-server  --watch data/questions.json --delay 100  --port 8000"
   },
   "eslintConfig": {
     "extends": [
